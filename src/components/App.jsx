@@ -8,6 +8,7 @@ import ManTwo from "../assets/images/Man-two.jpg";
 import WomanOne from "../assets/images/Woman-one.jpg";
 import WomanTwo from "../assets/images/Woman-two.jpg";
 import WomanThree from "../assets/images/Woman-three.jpg";
+import User from "../assets/images/user.jpg";
 
 function App() {
   const contacts = [
@@ -42,11 +43,19 @@ function App() {
       messages: [],
     },
   ];
+
+  const user = [
+    {
+      avatar: User,
+      name: "You",
+    },
+  ];
+
   return (
     <>
       <div className="layout">
-        <Header />
-        <Sidebar />
+        <Header user={user} />
+        <Sidebar contacts={contacts} />
         <Main />
       </div>
     </>

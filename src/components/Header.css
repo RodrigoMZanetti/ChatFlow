@@ -1,7 +1,26 @@
 .header {
   width: 100%;
-  background-color: rgba(91, 91, 225, 0.636);
+  background-color: white;
   margin: 0;
   padding: 10px;
-  border: 1px solid black;
+
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.141);
+
+  display: flex;
+  align-items: center;
+}
+
+.header__container {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+}
+
+.header__name {
+  font-size: 1.2rem;
+}
+
+.header__image {
+  max-width: 150px;
+  display: block;
 }
