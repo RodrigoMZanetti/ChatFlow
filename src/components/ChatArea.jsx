@@ -1,39 +1,31 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./ChatArea.css";
 
-function Main() {
-  const initialMessages = [
-    {
-      id: 1,
-      sender: "Rodrigo",
-      isUser: true,
-      message: "What time is it?",
-    },
-    {
-      id: 2,
-      sender: "Larissa",
-      isUser: false,
-      message: "nine o'clock, I am not ready yet",
-    },
-    {
-      id: 3,
-      sender: "Fernandes",
-      isUser: false,
-      message: "Hurry up bro",
-    },
-    {
-      id: 4,
-      sender: "Jorge",
-      isUser: true,
-      message: "Wait for me guys!",
-    },
-  ];
+function ChatArea({ contactId }) {
+  useEffect(() => {
+    if (!contactId) {
+      return;
+    }
+    async function handleFetchMessages() {
+      try {
+        const contactMessageFetch = await fetch(
+          `http://localhost:3000/contacts/${contactId}/messages`,
+        );
+        const data = await contactMessageFetch.json();
+        setMessages(data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    handleFetchMessages();
+  }, [contactId]);
 
   const [name, setName] = useState("");
   const [text, setText] = useState("");
-  const [messages, setMessages] = useState(initialMessages);
+  const [messages, setMessages] = useState([]);
 
-  function MessagesControl() {
+  function handleMessagesControl() {
     const newMessage = {
       id: new Date().getTime(),
       sender: name,
@@ -49,11 +41,11 @@ function Main() {
     setName("");
   }
 
-  function TextChange(evt) {
+  function handleTextChange(evt) {
     setText(evt.target.value);
   }
 
-  function NameChange(evt) {
+  function handleNameChange(evt) {
     setName(evt.target.value);
   }
   return (
@@ -69,22 +61,23 @@ function Main() {
         <input
           type="text"
           value={name}
-          onChange={NameChange}
+          onChange={handleNameChange}
           placeholder="Type your name here"
         />
         <label>Send Your Message</label>
         <input
           type="text"
           value={text}
-          onChange={TextChange}
+          onChange={handleTextChange}
           placeholder="Type your message here"
         />
-        <button type="submit" onClick={MessagesControl}>
+        <button type="button" onClick={handleMessagesControl}>
           Send
         </button>
+        <p>Selected contact: {contactId}</p>
       </div>
     </div>
   );
 }
 
-export default Main;
+export default ChatArea;
